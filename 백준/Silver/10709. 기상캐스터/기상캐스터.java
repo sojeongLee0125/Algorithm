@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -25,12 +24,7 @@ public class Main {
         H = Integer.parseInt(st.nextToken());
         W = Integer.parseInt(st.nextToken());
         map = new char[H][W];
-
-        // 시간의 초기값을 -1 로 갱신
         time = new int[H][W];
-        for (int i = 0; i < H; i++) {
-            Arrays.fill(time[i], -1);
-        }
 
         // H 개의 행의 i번째 행 (1 ≦ i ≦ H) 에는 W문자의 문자열이 주어진다.
         for (int i = 0; i < H; i++) {
@@ -40,21 +34,19 @@ public class Main {
             for (int j = 0; j < W; j++) {
                 map[i][j] = str.charAt(j);
                 if (map[i][j] == 'c') time[i][j] = 0;
+                else time[i][j] = -1;
             }
         }
 
-        int cnt = 0;
-        while (true) {
-            if (isClear()) break;
-            cnt++;
-            // 1. 구름이 이동한다.
-            // 2. 해당 칸의 값이 -1 이면 시간을 갱신한다.
-            for (int i = 0; i < H; i++) {
-                for (int j = W - 1; j > 0; j--) {
-                    map[i][j] = map[i][j - 1];
-                    if (time[i][j] == -1 && map[i][j] == 'c') time[i][j] = cnt;
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < W; j++) {
+                if (time[i][j] == 0) {
+                    int cnt = 1;
+                    while ((j != W - 1) && time[i][j + 1] == -1) {
+                        time[i][j + 1] = cnt++;
+                        j++;
+                    }
                 }
-                map[i][0] = '.';
             }
         }
 
