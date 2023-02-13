@@ -58,14 +58,4 @@ public class Main {
         }
 
     }
-
-    private static boolean isClear() {
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < W; j++) {
-                if (map[i][j] == 'c') return false;
-            }
-        }
-        return true;
-    }
-
 }
