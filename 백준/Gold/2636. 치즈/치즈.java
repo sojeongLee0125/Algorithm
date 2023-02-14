@@ -35,12 +35,6 @@ public class Main {
             }
         }
 
-        // 해결방안
-        // 1. dfs를 진행하면서 녹아야 할 치즈 리스트를 확보한다.
-        // 2. 치즈를 녹인다.
-        // 3. 시간을 증가한다.
-        // 4. 조각수를 계산한다.
-        // 5. 모든 조각이 녹으면 직전 조각수를 갱신하고 반복문을 멈춘다.
         while (true) {
             if (isClear()) {
                 ans = curSize;
@@ -48,7 +42,6 @@ public class Main {
             }
             time++;
             curSize = 0;
-            count();
 
             // 녹을 치즈 리스트 구하기
             chk = new int[N][M];
@@ -63,17 +56,10 @@ public class Main {
         System.out.println(ans);
     }
 
-    private static void count() {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (map[i][j] != 0) curSize++;
-            }
-        }
-    }
-
     private static void goMelt() {
         for (int[] p : melt) {
             map[p[0]][p[1]] = 0;
+            curSize++;
         }
     }
 
