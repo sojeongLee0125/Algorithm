@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -24,19 +23,29 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
-        chk[N] = 1;
-        map[N] = -1;
-        go(N);
-
-        // 첫째 줄에 수빈이가 동생을 찾는 가장 빠른 시간을 출력한다.
-        System.out.println(chk[K] - 1);
-        // 둘째 줄에 어떻게 이동해야 하는지 공백으로 구분해 출력한다.
         StringBuilder sb = new StringBuilder();
-        for (int i = K; i != N; i = map[i]) {
-            sb.insert(0, i + " ");
+        if (K <= N) {
+            System.out.println(N - K);
+            for (int i = N; i >= K; i--) {
+                sb.append(i).append(" ");
+            }
+            System.out.println(sb);
+        } else {
+            chk[N] = 1;
+            go(N);
+            // 첫째 줄에 수빈이가 동생을 찾는 가장 빠른 시간을 출력한다.
+            System.out.println(chk[K] - 1);
+
+            // 둘째 줄에 어떻게 이동해야 하는지 공백으로 구분해 출력한다.
+            sb = new StringBuilder();
+            for (int i = K; i != N; i = map[i]) {
+                sb.insert(0, i + " ");
+            }
+            sb.insert(0, N + " ");
+            System.out.println(sb);
         }
-        sb.insert(0, N + " ");
-        System.out.println(sb);
+
+
     }
 
     private static void go(int cur) {
