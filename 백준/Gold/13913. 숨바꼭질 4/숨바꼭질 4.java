@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -30,22 +31,20 @@ public class Main {
         // 첫째 줄에 수빈이가 동생을 찾는 가장 빠른 시간을 출력한다.
         System.out.println(chk[K] - 1);
         // 둘째 줄에 어떻게 이동해야 하는지 공백으로 구분해 출력한다.
-        findRoot(K);
-    }
-
-    private static void findRoot(int cur) {
-        if(cur == -1) return;
-        findRoot(map[cur]);
-        System.out.print(cur + " ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = K; i != N; i = map[i]) {
+            sb.insert(0, i + " ");
+        }
+        sb.insert(0, N + " ");
+        System.out.println(sb);
     }
 
     private static void go(int cur) {
-        // 해결방법 : 큐를 이용해서 최단 거리 시간을 구한다.
-        // 이동 경로 중 이전 경로를 map에 저장한다.
         Queue<Integer> q = new LinkedList<>();
         q.offer(cur);
         while (!q.isEmpty()) {
             int c = q.poll();
+            if (c == K) break;
             int[] arr = {c + 1, c - 1, c * 2};
             for (int nx : arr) {
                 if (nx < 0 || nx > 200000) continue;
