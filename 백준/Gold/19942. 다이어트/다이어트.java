@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -10,13 +9,11 @@ import java.util.StringTokenizer;
  * Q. 입력으로 식재료 표가 주어졌을 때, 최저 영양소 기준을 만족하는 최소 비용의 식재료 집합을 찾아야 한다.
  * - 식재료 N개 중에서 몇 개를 선택해서 이들의 영양분(단백질, 탄수화물, 지방, 비타민)이 일정 이상이 되어야 한다.
  * - 조건을 만족시키면서도 비용이 최소가 되는 선택을 하려고 한다.
- * -
  */
 public class Main {
 
     static int N, mp, mf, ms, mv, min = Integer.MAX_VALUE;
     static ArrayList<food> foods = new ArrayList<>();
-    static ArrayList<Integer> comb = new ArrayList<>();
     static HashMap<Integer, ArrayList<String>> ans = new HashMap<>();
 
     static class food {
@@ -72,9 +69,9 @@ public class Main {
         } else {
             // 첫 번째 줄에 최소 비용을 출력하고, 두 번째 줄에 조건을 만족하는 최소 비용 식재료의 번호를 공백으로 구분해 오름차순으로 한 줄에 출력한다.
             System.out.println(min);
-            ArrayList<String> list = ans.get(min);
 
             // 같은 비용의 집합이 하나 이상이면 사전 순으로 가장 빠른 것을 출력한다.
+            ArrayList<String> list = ans.get(min);
             list.sort(String::compareTo);
             System.out.println(list.get(0));
         }
