@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Stack<Character> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
 
         // 첫째 줄에 문자열이 주어진다. 문자열의 길이는 1보다 크거나 같고, 1,000,000보다 작거나 같다.
         String str = br.readLine();
@@ -23,37 +23,17 @@ public class Main {
         // 둘째 줄에 폭발 문자열이 주어진다. 길이는 1보다 크거나 같고, 36보다 작거나 같다.
         // 두 문자열은 모두 알파벳 소문자와 대문자, 숫자 0, 1, ..., 9로만 이루어져 있다.
         String bomb = br.readLine();
-        char last = bomb.charAt(bomb.length() - 1);
 
-        // 문자열을 하나씩 스택에 담는다.
-        // 폭발문자열의 마지막 단어가 나오면 앞의 스택을 차례대로 뽑아서 비교한다.
-        // 폭파한다.
-        // 아닐 경우 다시 스택에 넣는다.
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == last) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(last);
-                int cnt = bomb.length() - 1;
-                while (!stack.isEmpty() && cnt-- > 0) {
-                    sb.append(stack.pop());
-                }
-                if(!bomb.equals(sb.reverse().toString())){
-                    for(char c : sb.toString().toCharArray()){
-                        stack.push(c);
-                    }
-                }
-            }else{
-                stack.push(str.charAt(i));
+        for (char c : str.toCharArray()) {
+            sb.append(c);
+            if (sb.length() >= bomb.length() && (sb.substring(sb.length() - bomb.length(), sb.length()).equals(bomb))) {
+                sb.replace(sb.length() - bomb.length(), sb.length(), "");
             }
         }
 
-        if(stack.isEmpty()) System.out.println("FRULA");
+        if (sb.length() == 0) System.out.println("FRULA");
         else {
-            StringBuilder ans = new StringBuilder();
-            while(!stack.isEmpty()){
-                ans.append(stack.pop());
-            }
-            System.out.println(ans.reverse());
+            System.out.println(sb);
         }
 
     }
