@@ -34,16 +34,19 @@ public class Main {
         // 1. 오름차순 정렬한다.
         Arrays.sort(arr);
 
-        // 2. 해시맵에 해당 키가 없으면 x - 해당 수 를 키값으로 저장한다.
-        HashMap<Integer, Integer> map = new HashMap<>();
-        Arrays.stream(arr).forEach(n -> {
-            // 3. 해시맵에 해당 키가 있으면 cnt++
-            if (map.containsKey(n)) {
+        // 2. 투포인터로 검색한다.
+        int lt = 0;
+        int rt = n - 1;
+        while (lt < rt) {
+            if (arr[lt] + arr[rt] == x) {
                 cnt++;
+                lt++;
+            } else if (arr[lt] + arr[rt] < x) {
+                lt++;
             } else {
-                map.put(x - n, n);
+                rt--;
             }
-        });
+        }
 
         // 문제의 조건을 만족하는 쌍의 개수를 출력한다.
         System.out.println(cnt);
