@@ -24,6 +24,7 @@ public class Main {
     static int N, M;
     static int[] ans;
     static boolean[] chk;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -39,12 +40,15 @@ public class Main {
         // 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
         // 수열은 사전 순으로 증가하는 순서로 출력해야 한다.
         recur(0);
+        System.out.println(sb);
     }
 
     private static void recur(int dept) {
         if (dept == M) {
-            Arrays.stream(ans).forEach(i -> System.out.print(i + " "));
-            System.out.println();
+            for(int i : ans){
+                sb.append(i).append(" ");
+            }
+            sb.append("\n");
         } else {
             for (int i = 1; i <= N; i++) {
                 if (!chk[i]) {
