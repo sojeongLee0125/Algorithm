@@ -19,12 +19,11 @@ import java.util.StringTokenizer;
  * <p>
  * 3. 자료구조
  * - 탐색 대상 : int[]
- * - 타겟 : int[]
  */
 public class Main {
     static int N, M;
     static int[] arr;
-    static int[] target;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,32 +42,28 @@ public class Main {
 
         // 다음 줄에는 M(1 ≤ M ≤ 100,000)이 주어진다. 다음 줄에는 M개의 수들이 주어진다.
         M = Integer.parseInt(br.readLine());
-        target = new int[M];
-
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < M; i++) {
             // 이 수들이 A안에 존재하는지 알아내면 된다. 모든 정수의 범위는 -231 보다 크거나 같고 231보다 작다.
-            target[i] = Integer.parseInt(st.nextToken());
-            System.out.println(find(target[i]));
-            // M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0을 출력한다.
+            divide(0, N - 1, Integer.parseInt(st.nextToken()));
         }
+        // M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0을 출력한다.
+        System.out.println(sb);
     }
 
-    private static int find(int num) {
-        return divide(0, N - 1, num);
-    }
-
-    private static int divide(int st, int ed, int tar) {
+    private static void divide(int st, int ed, int tar) {
         if (st == ed) {
-            if (arr[st] == tar) return 1;
-            else return 0;
+            if (arr[st] == tar) {
+                sb.append(1).append("\n");
+            } else sb.append(0).append("\n");
+            return;
         }
 
         int mid = (st + ed) / 2;
         if (arr[mid] < tar) {
-            return divide(mid + 1, ed, tar);
+            divide(mid + 1, ed, tar);
         } else {
-            return divide(st, mid, tar);
+            divide(st, mid, tar);
         }
     }
 
