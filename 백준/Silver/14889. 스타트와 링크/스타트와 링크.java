@@ -21,13 +21,13 @@ public class Main {
 
         // 첫째 줄에 N(4 ≤ N ≤ 20, N은 짝수)이 주어진다.
         N = Integer.parseInt(br.readLine());
-        map = new int[N + 1][N + 1];
+        map = new int[N][N];
 
         // 둘째 줄부터 N개의 줄에 S가 주어진다.
         // Sii는 항상 0이고, 나머지 Sij는 1보다 크거나 같고, 100보다 작거나 같은 정수이다.
-        for (int i = 1; i <= N; i++) {
+        for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-            for (int j = 1; j <= N; j++) {
+            for (int j = 0; j < N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
@@ -36,35 +36,36 @@ public class Main {
         // 비트마스킹으로 각각의 경우의 수를 구한다 (완전탐색)
         // 이때 정확히 반으로 나뉜 경우에 해당 경우의 수에서 각 팀의 능력치를 구한뒤 차이의 최솟값을 갱신한다.
         for (int i = 0; i < (1 << N); i++) {
-            ArrayList<Integer> t1 = new ArrayList<>();
-            ArrayList<Integer> t2 = new ArrayList<>();
+            ArrayList<Integer> start = new ArrayList<>();
+            ArrayList<Integer> link = new ArrayList<>();
             for (int j = 0; j < N; j++) {
                 if ((i & (1 << j)) != 0) {
-                    t1.add(j + 1);
+                    start.add(j);
                 } else {
-                    t2.add(j + 1);
+                    link.add(j);
                 }
             }
-            if (t1.size() != t2.size()) continue;
-            int cnt1 = 0;
-            for (int num1 : t1) {
-                for (int n : t1) {
-                    cnt1 += map[num1][n];
-                }
-            }
+            if (start.size() != link.size()) continue;
+            else {
+                int cnt1 = 0;
+                int cnt2 = 0;
+                for (int y = 0; y < N / 2; y++) {
+                    for (int x = 0; x < N / 2; x++) {
+                        if (y == x) continue;
+                        cnt1 += map[start.get(y)][start.get(x)];
+                        cnt2 += map[link.get(y)][link.get(x)];
 
-            int cnt2 = 0;
-            for (int num2 : t2) {
-                for (int n : t2) {
-                    cnt2 += map[num2][n];
+                    }
                 }
+                diff = Math.min(diff, Math.abs(cnt2 - cnt1));
             }
-
-            diff = Math.min(diff, Math.abs(cnt2 - cnt1));
         }
 
         // 첫째 줄에 스타트 팀과 링크 팀의 능력치의 차이의 최솟값을 출력한다.
         System.out.println(diff);
+
     }
 
+
 }
+
