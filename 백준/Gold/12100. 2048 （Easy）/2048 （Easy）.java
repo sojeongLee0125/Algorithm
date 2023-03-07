@@ -54,7 +54,7 @@ public class Main {
         for (int i = 0; i < N; i++) {
             int curIdx = -1; // 현재까지 합쳐진 곳 인덱스
             boolean flag = false; // 합쳐질 수 있는지 여부
-            
+
             for (int j = 0; j < N; j++) {
                 if (map[i][j] == 0) continue;
                 // 현재까지 합쳐진 부분 tmp[i][curIdx]과 현재 좌표 map[i][j]부분을 비교한다.
@@ -65,10 +65,6 @@ public class Main {
                     tmp[i][++curIdx] = map[i][j];
                     flag = true;
                 }
-            }
-            
-            for (curIdx++; curIdx < N; curIdx++) {
-                tmp[i][curIdx] = 0;
             }
         }
 
