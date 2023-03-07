@@ -79,6 +79,7 @@ public class Main {
         int dir = 1;
         deque.addFirst(new int[]{0, 0});
         chk[0][0] = 1;
+
         while (true) {
             cnt++;
             int[] cur = deque.peekFirst();
