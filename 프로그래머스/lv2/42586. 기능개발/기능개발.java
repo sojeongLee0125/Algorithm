@@ -10,6 +10,7 @@ import java.util.*;
 // 예를 들어 진도율이 95%인 작업의 개발 속도가 하루에 4%라면 배포는 2일 뒤에 이루어집니다.
 
 class Solution {
+    
     public int[] solution(int[] progresses, int[] speeds) {
         ArrayList<Integer> ans = new ArrayList<>();
         
@@ -22,32 +23,30 @@ class Solution {
             ans.add(complete);
         }
         
-        int[] chk = new int[ans.size()];
-        ArrayList<Integer> tmp = new ArrayList<>();
+        // 큐에 해당 날짜 리스트를 넣는다.
+        Queue<Integer> q = new LinkedList<>();
         
-        for(int i = 0; i < ans.size() - 1; i++){
-            if(chk[i] == 1) continue;
-            chk[i] = 1;
-            int cnt = 1;
-            int nxt = i+1;
-            
-            while(ans.get(i) >= ans.get(nxt)){
-                cnt++;
-                chk[nxt] = 1;
-                nxt++;
-                if(nxt >= ans.size()) break;
-            }
-            
-            tmp.add(cnt);
+        for(int i = 0; i < ans.size(); i++){
+            q.add(ans.get(i));
         }
         
-        // 마지막 처리
-        if(chk[ans.size() - 1] == 0) tmp.add(1);
+        // 큐에서 차례대로 꺼내면서 다음 날짜가 현재 날짜보다 클 경우 배포 카운트에 추가한다.
+        // 다음 날짜가 현재 날짜보다 작은 경우 cnt를 올리고 그다음을 꺼낸다.
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            int cnt = 1;
+            while(!q.isEmpty() && q.peek() <= cur){
+                cnt++;
+                q.poll();
+            }
+            list.add(cnt);
+        }
 
-        int idx = 0;
-        int[] answer = new int[tmp.size()];
-        for(int i = 0 ; i < tmp.size() ; i++){
-            answer[idx++] = tmp.get(i);
+        int[] answer = new int[list.size()];
+        for(int i = 0 ; i < list.size() ; i++){
+            answer[i] = list.get(i);
         }
         
         return answer;
