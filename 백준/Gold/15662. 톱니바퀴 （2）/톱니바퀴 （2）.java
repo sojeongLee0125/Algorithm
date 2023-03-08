@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -14,7 +13,7 @@ import java.util.StringTokenizer;
  */
 public class Main {
 
-    static int T, K, cnt;
+    static int T, K;
     static int[][] tire;
     static ArrayList<int[]> rotate = new ArrayList<>();
     static ArrayList<int[]> tmp = new ArrayList<>();
@@ -57,7 +56,6 @@ public class Main {
 
         // 총 K번 회전시킨 이후에 12시방향이 S극인 톱니바퀴의 개수를 출력한다.
         System.out.println(find());
-
     }
 
     private static int find() {
