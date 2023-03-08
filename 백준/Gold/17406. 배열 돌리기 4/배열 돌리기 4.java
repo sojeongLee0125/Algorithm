@@ -15,8 +15,12 @@ public class Main {
 
     static int N, M, K, min = Integer.MAX_VALUE;
     static int[][] arr;
+    static int[][] tmp;
     static ArrayList<int[]> rotate = new ArrayList<>();
+    static int[] order;
     static int[] chk;
+    static int[] dy = {0, 1, 0, -1};
+    static int[] dx = {1, 0, -1, 0};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,8 +30,11 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
+
         arr = new int[N][M];
+        tmp = new int[N][M];
         chk = new int[K];
+        order = new int[K];
 
         // 둘째 줄부터 N개의 줄에 배열 A에 들어있는 수 A[i][j]가 주어지고,
         for (int i = 0; i < N; i++) {
@@ -50,84 +57,75 @@ public class Main {
         // 1. K 번의 완전탐색을 통해 회전연산을 수행한다. 이때 기저 조건은 CNT == K, 이때 각 행의 합의 최소값을 갱신한다.
         // 2. 회전 연산 (r-s, c-s ~ r+s,c+s의 회전연산을 수행하면서 제자리로 돌아오면 r-s + 1, c-s + 1을 원점으로 시작한다.)
         // 3. 만약 원점이 최소 / 2 보다 작거나 같을때 까지만 수행한다.
-        rot(0, arr);
+        rot(0);
         System.out.println(min);
     }
 
-    private static void rot(int cnt, int[][] arr) {
+    private static void rot(int cnt) {
         if (cnt == K) {
             // 각 행마다의 합을 구하고 최소값을 갱신한다.
-            calc(arr);
+            calc();
             return;
         }
+
         // 회전 연산 순열 실시
         for (int i = 0; i < K; i++) {
             if (chk[i] == 0) {
+                order[cnt] = i;
                 chk[i] = 1;
-                rot(cnt + 1, change(rotate.get(i), arr));
+                rot(cnt + 1);
                 chk[i] = 0;
             }
         }
-
     }
 
-    private static int[][] change(int[] rot, int[][] arr) {
-        int[][] tmp = new int[N][M];
-
+    private static void calc() {
         for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                tmp[i][j] = arr[i][j];
-            }
+            System.arraycopy(arr[i], 0, tmp[i], 0, arr[i].length);
         }
+        for (int i = 0; i < K; i++) {
+            change(rotate.get(order[i]));
+        }
+        getMin();
+    }
 
+    private static void change(int[] rot) {
         int r = rot[0];
         int c = rot[1];
         int s = rot[2];
 
-        int y = r - s;
-        int x = c - s;
+        for (int i = 0; i < s; i++) {
+            int cy = r - s + i;
+            int cx = c - s + i;
+            int d = 0;
+            int pre = tmp[cy][cx];
 
-        int lastY = ((r - s) + (r + s)) / 2;
-        int lastX = ((c - s) + (c + s)) / 2;
+            while (d < 4) {
+                cy += dy[d];
+                cx += dx[d];
 
-        int cnt = 0;
-        while (true) {
-            // 윗 쪽 가로 진행
-            while (true) {
-                tmp[y][x + 1] = arr[y][x++];
-                if (x == (c + s) - cnt) break;
+                // 값 교촨
+                int num = tmp[cy][cx];
+                tmp[cy][cx] = pre;
+                pre = num;
+
+                int ny = cy + dy[d];
+                int nx = cx + dx[d];
+
+                if (ny < r - s + i || nx < c - s + i || ny > r + s - i || nx > c + s - i) d++;
             }
-            // 오른쪽 세로 진행
-            while (true) {
-                tmp[y + 1][x] = arr[y++][x];
-                if (y == (r + s) - cnt) break;
-            }
-            // 아래 쪽 가로 진행
-            while (true) {
-                tmp[y][x - 1] = arr[y][x--];
-                if (x == (c - s) + cnt) break;
-            }
-            // 왼쪽 세로 진행
-            while (true) {
-                tmp[y - 1][x] = arr[y--][x];
-                if (y == (r - s) + cnt) break;
-            }
-            y++;
-            x++;
-            cnt++;
-            if (y >= lastY && x >= lastX) break;
         }
-        return tmp;
     }
 
-    private static void calc(int[][] arr) {
+    private static void getMin() {
         for (int i = 0; i < N; i++) {
             int sum = 0;
             for (int j = 0; j < M; j++) {
-                sum += arr[i][j];
+                sum += tmp[i][j];
             }
             min = Math.min(min, sum);
         }
     }
+
 
 }
