@@ -14,7 +14,6 @@ import java.util.*;
  */
 public class Main {
 
-    static int max;
     static int[] dice = new int[10];
     static int[] mal = new int[4];
     static ArrayList<Integer>[] map = new ArrayList[55];
@@ -59,7 +58,6 @@ public class Main {
             // 원상복구
             mal[i] = curIdx;
         }
-
         return sum;
     }
 
@@ -72,7 +70,6 @@ public class Main {
     }
 
     private static int getNext(int curIdx, int dice) {
-        if (curIdx == 50) return 50;
 
         if (map[curIdx].size() > 1) {
             curIdx = map[curIdx].get(1);
