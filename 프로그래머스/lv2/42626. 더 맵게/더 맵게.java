@@ -22,29 +22,17 @@ class Solution {
             pq.add(n);
         }
         
-        // 2. 첫번째와 두번째 요소를 꺼내는데 이 때 첫번째 요소가 K 이상일 경우 break 한다.
-        boolean flag = false;
-        
-        while(pq.size() > 1){
+        // 2. 첫번째와 두번째 요소를 꺼내는데 이 때 첫번째 요소가 K 이상일 경우 break 한다. 
+        while(pq.size() > 1 && pq.peek() < K){
             int first = pq.poll();
             int second = pq.poll();
-            
-            if(first >= K) {
-                flag = true;
-                break;
-            }
-            
             int sum = first + (second * 2);
             pq.add(sum);
             answer++;
         }
         
-        // pq에 1개만 남았을 경우 [1, 1] 이면서 K = 3
-        if(pq.size() == 1 && pq.peek() >= K){
-            flag = true;
-        }
-        
-        if(flag) return answer;
-        else return -1;
+        if(pq.size() >= 1 && pq.peek() >= K){
+            return answer;
+        }else return -1;
     }
 }
