@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int n, max = Integer.MIN_VALUE;
+    static int[] dp;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,14 +18,13 @@ public class Main {
         // 첫째 줄에 정수 n(1 ≤ n ≤ 100,000)이 주어지고 둘째 줄에는 n개의 정수로 이루어진 수열이 주어진다.
         // 수는 -1,000보다 크거나 같고, 1,000보다 작거나 같은 정수이다.
         n = Integer.parseInt(br.readLine());
+        dp = new int[n + 1];
 
-        int sum = 0;
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             int n = Integer.parseInt(st.nextToken());
-            sum += n;
-            max = Math.max(sum, max);
-            if (sum < 0) sum = 0;
+            dp[i] = Math.max(dp[i - 1] + n, n);
+            max = Math.max(dp[i], max);
         }
 
         System.out.println(max);
