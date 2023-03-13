@@ -13,11 +13,10 @@ import java.util.StringTokenizer;
  * - 판매한 피자조각은 모두 A종류이거나, 모두 B종류이거나, 또는 A와 B 종류가 혼합될 수 있다.
  */
 public class Main {
-
     static int size, m, n, cnt;
     static int[] A, B, pSum_a, pSum_b;
-    static HashMap<Integer, Integer> cnt_a = new HashMap<>();
-    static HashMap<Integer, Integer> cnt_b = new HashMap<>();
+    static int[] cnt_a = new int[2000005];
+    static int[] cnt_b = new int[2000005];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,6 +31,7 @@ public class Main {
 
         A = new int[m + 1];
         B = new int[n + 1];
+
         pSum_a = new int[2 * m + 1];
         pSum_b = new int[2 * n + 1];
 
@@ -64,25 +64,25 @@ public class Main {
         go(n, pSum_b, cnt_b);
 
         // A 피자에서의 경우의 수
-        cnt += cnt_a.getOrDefault(size, 0);
+        cnt += cnt_a[size];
 
         // B 피자에서의 경우의 수
-        cnt += cnt_b.getOrDefault(size, 0);
+        cnt += cnt_b[size];
 
         // A + B 피자에서의 경우의 수
         for (int i = 1; i < size; i++) {
-            cnt += cnt_a.getOrDefault(size - i, 0) * cnt_b.getOrDefault(i, 0);
+            cnt += cnt_a[size - i] * cnt_b[i];
         }
 
         // 첫째 줄에는 피자를 판매하는 방법의 가지 수를 나타내는 정수를 출력한다. 피자를 판매하는 방법이 없는 경우에는 숫자 0을 출력한다.
         System.out.println(cnt);
     }
 
-    private static void go(int n, int[] pSum, HashMap<Integer, Integer> cnt) {
+    private static void go(int n, int[] pSum, int[] cnt) {
         for (int interval = 1; interval <= n; interval++) {
             for (int st = interval; st <= n + interval - 1; st++) {
                 int sum = pSum[st] - pSum[st - interval];
-                cnt.put(sum, cnt.getOrDefault(sum, 0) + 1);
+                cnt[sum]++;
                 if (interval == n) break;
             }
         }
