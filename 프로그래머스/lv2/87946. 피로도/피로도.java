@@ -12,19 +12,13 @@ class Solution {
     int[] chk = new int[10];
     
     public void go(int cnt, int k, int[][] dungeons){ 
-        if(cnt == total){
-            return;
-        }
-        
         for(int i=0; i<total; i++){
             if(chk[i] != 0) continue;
             if(dungeons[i][0] > k) continue;
             chk[i] = 1;
-            k = k - dungeons[i][1];
             ans = Math.max(ans, cnt + 1);
-            go(cnt + 1, k, dungeons);
+            go(cnt + 1, k - dungeons[i][1], dungeons);
             chk[i] = 0;
-            k = k + dungeons[i][1];
         }
     }
     
