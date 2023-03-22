@@ -12,12 +12,14 @@ class Solution {
         // 처음 카메라 위치는 - 30001
         // 현재 진입점 기준으로 카메라 위치보다 앞에 있으면 answer++; 하고 카메라 위치는 현재 종점으로 잡는다.
         
-        Arrays.sort(routes, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] r1, int[] r2) {
-                return r1[1] - r2[1];
-            }
-        });
+        // Arrays.sort(routes, new Comparator<int[]>() {
+        //     @Override
+        //     public int compare(int[] r1, int[] r2) {
+        //         return r1[1] - r2[1];
+        //     }
+        // });
+        
+        Arrays.sort(routes, (a, b) -> Integer.compare(a[1], b[1]));
         
         int p = -30001;
         for(int[] cur : routes){
