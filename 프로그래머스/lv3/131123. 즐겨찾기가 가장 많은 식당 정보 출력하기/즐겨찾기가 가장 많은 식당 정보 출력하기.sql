@@ -1,0 +1,15 @@
+-- REST_INFO 테이블에서 음식종류별로 즐겨찾기수가 가장 많은 식당의 
+-- 음식 종류, ID, 식당 이름, 즐겨찾기수를 조회하는 SQL문을 작성해주세요. 
+-- 이때 결과는 음식 종류를 기준으로 내림차순 정렬해주세요.
+
+WITH TEMP AS (
+    SELECT FOOD_TYPE, MAX(FAVORITES) AS FAVORITES
+    FROM REST_INFO
+    GROUP BY FOOD_TYPE
+)
+
+SELECT F.FOOD_TYPE, F.REST_ID, F.REST_NAME, F.FAVORITES
+FROM REST_INFO AS F JOIN TEMP AS T 
+    ON F.FOOD_TYPE = T.FOOD_TYPE 
+    AND F.FAVORITES = T.FAVORITES
+ORDER BY F.FOOD_TYPE DESC;
