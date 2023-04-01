@@ -25,22 +25,21 @@ public class Main {
         // 다음 M개 줄에는 구간 [1, 109]에 포함되는 양의 정수가 하나씩 주어진다. K번째 줄에 주어지는 숫자는 K번 색상 보석의 개수이다.
         arr = new int[M];
 
+        // 1. 질투심의 최솟값은 1 ~ 최댓값은 보석갯수의 최대값
+        lt = 1;
         for (int i = 0; i < M; i++) {
             arr[i] = Integer.parseInt(br.readLine());
             rt = Math.max(rt, arr[i]);
         }
 
-        // 1. 질투심의 최솟값은 1 ~ 최댓값은 보석갯수의 최대값
-        lt = 1;
-
         // 2. 질투심의 mid값을 기준으로 학생들에게 남김없이 나눌 수 있으면 값을 갱신한다.
         // 3. 최소값을 찾는다.
-        while(lt <= rt){
+        while (lt <= rt) {
             int mid = (lt + rt) / 2;
             if (isOk(mid)) {
                 ans = Math.min(ans, mid);
                 rt = mid - 1;
-            }else{
+            } else {
                 lt = mid + 1;
             }
         }
@@ -52,13 +51,9 @@ public class Main {
     private static boolean isOk(int mid) {
         int cnt = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            int num = arr[i];
-            while(num - mid >= 0){
-                num -= mid;
-                cnt++;
-            }
-            if(num > 0) cnt++;
+        for (int i = 0; i < M; i++) {
+            cnt += arr[i] / mid;
+            if (arr[i] % mid > 0) cnt++;
         }
 
         return cnt <= N;
