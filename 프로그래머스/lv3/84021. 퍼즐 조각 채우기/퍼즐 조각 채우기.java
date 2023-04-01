@@ -16,7 +16,7 @@ class Solution {
         int answer = 0;
         N = game_board.length;
         
-        // 퍼즐이 들어갈 빈 공간 저장하기
+        // 빈 공간들 -> NXN 좌표 문자열로 변환하여 저장하기
         for(int i=0; i<N; i++){
             for(int j=0; j<N; j++){
                 if(game_board[i][j] == 0){
@@ -26,7 +26,8 @@ class Solution {
             }
         }
              
-        // 퍼즐 조각을 찾아서 끼워 넣기
+        // 퍼즐 조각들 -> NXN 좌표 문자열로 변환하여 빈 공간 문자열과 비교하기
+        // 비교하여 빈 공간에 맞으면 해당 퍼즐 조각만큼 정답에 더해주기
         for(int i=0; i<N; i++){
             for(int j=0; j<N; j++){
                 if(table[i][j] == 1){
@@ -40,55 +41,44 @@ class Solution {
     }
     
     public int find(String str){
-        int p = 0; // 해당 블록의 갯수
+        int cnt = 0; // 해당 블록의 갯수
         
         for(int i=0; i< str.length(); i++){
-            if(str.charAt(i) == '1') p++;
+            if(str.charAt(i) == '1') cnt++; // 블록의 갯수 먼저 세기
         }
         
         for(int i=0; i< empty.size(); i++){
-            String tmp = empty.get(i);
+            String tmp = empty.get(i); // 빈 공간 문자열 하나씩 가져와서 비교
             
             // 4방향 회전 체크
-            for(int j=0; j< 4; j++){
-                tmp = rotate(tmp);
+            for(int k=0; k<4; k++){
+                tmp = rotate(tmp); // 공간을 4방향으로 회전하기
+                
+                // 빈공간과 블록이 일치할 경우
                 if(str.equals(tmp)){
-                    empty.remove(i); // 맞는 블록이 있으면 해당 빈 칸을 제외
-                    return p;
+                    empty.remove(i); // 해당 빈 칸을 리스트에서 제거
+                    return cnt;
                 }
             }
         }
         
-        return 0;
+        return 0; // 4방향 하나도 맞지 않는 경우
     }
     
     public String rotate(String str){
         StringBuilder sb = new StringBuilder();
+        String[] arr = str.split(" ");
         
-        int y = 0;
-        int x = 0;
-        
-        for(int i=0; i<str.length(); i++){
-            if(y == 0 && str.charAt(i) != ' ') x++; // 빈칸이 아니면 다음 x좌표값 증가
-            if(str.charAt(i) == ' ') y++; // 빈칸이 나오면 y좌표 값 증가 
-        }
-        
-        char[][] arr = new char[y][x];
         StringTokenizer st = new StringTokenizer(str);
         
-        for(int i=0; i<y; i++){
-            arr[i] = st.nextToken().toCharArray();
-        }
-        
-        for(int j=0; j<x; j++){
-            for(int i = y - 1; i >= 0; i--){
-                sb.append(arr[i][j]);
+        for(int j=0; j<arr[0].length(); j++){
+            for(int i = arr.length-1; i >= 0; i--){
+                sb.append(arr[i].charAt(j)); // 거꾸로 붙이기
             }
             sb.append(" ");
         }
         
         return sb.toString();
-        
     }
     
     public String bfs(int[][] board, int y, int x, int bit){
@@ -97,9 +87,9 @@ class Solution {
         Queue<int[]> q = new LinkedList<>();
         int[][] chk = new int[N][N]; // 방문체크
         
+        // 직사각형의 모양으로 블록 정보를 저장한다.
         int max_x = x; // x좌표 최소값
         int min_x = x; // x좌표 최댓값
-        
         int max_y = y; // y좌표 최소값
         int min_y = y; // y좌표 최댓값
         
@@ -115,16 +105,16 @@ class Solution {
             
             max_y = Math.max(max_y, cy);
             min_y = Math.min(min_y, cy);
-            
             max_x = Math.max(max_x, cx);
             min_x = Math.min(min_x, cx);
             
+            // 상하좌우 탐색
             for(int k=0; k<4; k++){
                 int ny = cy + dy[k];
                 int nx = cx + dx[k];
+                if(ny < 0 || nx < 0 || ny >= N || nx >= N || chk[ny][nx] != 0) continue;
                 
-                if(ny < 0 || nx < 0 || ny >= N || nx >= N) continue;
-                
+                // 같은 블록
                 if(board[ny][nx] == bit){
                     chk[ny][nx] = 1;
                     board[ny][nx] = (bit + 1) % 2; // 0 <> 1 전환해서 저장
