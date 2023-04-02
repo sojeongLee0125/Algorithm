@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 /**
@@ -12,8 +13,7 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int a, b;
-
-    static HashMap<Integer, Integer> map = new HashMap<>();
+    static HashSet<Integer> set = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,23 +26,17 @@ public class Main {
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < a; i++) {
             int num = Integer.parseInt(st.nextToken());
-            map.put(num, map.getOrDefault(num, 0) + 1);
+            set.add(num);
         }
 
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < b; i++) {
             int num = Integer.parseInt(st.nextToken());
-            map.put(num, map.getOrDefault(num, 0) + 1);
+            if (set.contains(num)) set.remove(num);
+            else set.add(num);
         }
 
-        int cnt = 0;
-        for (int num : map.keySet()) {
-            if (map.get(num) == 1) cnt++;
-        }
-
-        System.out.println(cnt);
-
-
+        System.out.println(set.size());
     }
 
 }
