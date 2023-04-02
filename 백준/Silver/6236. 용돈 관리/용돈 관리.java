@@ -28,12 +28,11 @@ public class Main {
         for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(br.readLine());
             rt += arr[i];
+            lt = Math.max(lt, arr[i]);
         }
 
-        lt = 1;
         while (lt <= rt) {
             int mid = (lt + rt) / 2;
-
             int cnt = 1;
             int cur = mid;
 
@@ -44,10 +43,6 @@ public class Main {
                     // 통장에 남은 금액을 다시 집어넣고 새로 인출해서 사용한다.
                     cur = mid;
                     cnt++;
-                    if(arr[i] > mid) {
-                        cnt = M + 10;
-                        break;
-                    }
                     cur -= arr[i];
                 }
             }
