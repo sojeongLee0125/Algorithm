@@ -1,26 +1,29 @@
 import java.util.*;
 
-// 초 단위로 기록된 주식가격이 담긴 배열 prices가 매개변수로 주어질 때, 
-// 가격이 떨어지지 않은 기간은 몇 초인지를 return 하도록 solution 함수를 완성하세요.
 class Solution {
+    Stack<Integer> s = new Stack<>();
+    
     public int[] solution(int[] prices) {
-        Stack<Integer> stack = new Stack<>();
-        int[] answer = new int[prices.length];
+        int[] arr = new int[prices.length];
         
-        // 1. prices 배열들을 순서대로 해당 인덱스를 스택에 담는다.
-        // 2. 만약 스택에 peek한 가격보다 현재 입력값이 작다면 peek에 해당하는 정답 배열 값을 업데이트 한다.
-        // 3. 입력값이 크다면 그대로 push 한다.
+        // 1. prices를 순차적으로 순회하면서 현재 값이 stack의 peek 값보다 작은 경우 
+        // 해당 peek 값의 정답배열에 현재 인덱스 - pop()을 넣는다.
+        // 2. 작아지는 경우에는 curIdx - peek 값을  peek IDX의 초로 갱신하고 poll하고 curIdx 는 넣는다.
+        
         for(int i=0; i<prices.length; i++){
-            while(!stack.isEmpty() && prices[i] < prices[stack.peek()]){
-                answer[stack.peek()] = i - stack.pop();
+            while(!s.isEmpty() && prices[i] < prices[s.peek()]){ // 가격이 떨어지는 경우
+                arr[s.peek()] = i - s.pop();
             }
-            stack.push(i);
+            // 현재 인덱스는 그대로 넣는다.
+            s.push(i);
         }
         
-        while(!stack.isEmpty()){
-            answer[stack.peek()] = (prices.length - 1) - stack.pop();
+        // 3. 스택에서 위에서부터 하나씩 lastIdx-peek 을 arr[peekIdx] 에 넣는다.
+        while(!s.isEmpty()){
+            int c = s.pop();
+            arr[c] = (prices.length-1) - c;
         }
         
-        return answer;
+        return arr;
     }
 }
