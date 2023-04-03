@@ -50,16 +50,17 @@ public class Main {
                 }
             }
 
-            long tmp = M;
+            long tmp = M; // 최초 0분에 M명의 아이들이 탑승한다.
+
             // 이분 탐색 조건 체크 로직과 같은 로직
             // 구해진 time 1초 전까지의 놀이기구를 태운 수를 구한다.
             for (int i = 0; i < M; i++) {
                 tmp += ((t - 1) / time[i]);
             }
 
-            // 현재 타임에서 처음 놀이기구부터 하나씩 태워본다.
+            // 현재 타임 체크
             for (int i = 0; i < M; i++) {
-                if (t % time[i] == 0) tmp++; // 딱 떨어지는 경우 그 사이에 한명 더 태울 수 있으므로 추가
+                if (t % time[i] == 0) tmp++; // 딱 떨어지는 경우 그 시점에 한명 더 태울 수 있으므로 추가
                 if (tmp == N) {
                     System.out.println(i + 1);
                     break;
@@ -69,9 +70,7 @@ public class Main {
     }
 
     private static boolean isOk(long t) {
-        // 모든 놀이기구마다 1명씩 + 해줘야한다.
-        // 해당 시간에 나누어 떨어지는 경우 새로운 친구가 타고, 나머지가 있는 경우 다른 친구가 타고있는 경우므로.
-        long cnt = M;
+        long cnt = M; // 최초 0분에는 M명이 탄다.
 
         for (int i = 0; i < M; i++) {
             cnt += (t / time[i]); // 각 놀이기구 당 태우는 아이들 수
