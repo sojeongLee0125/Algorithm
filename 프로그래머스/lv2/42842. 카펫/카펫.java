@@ -1,17 +1,16 @@
 import java.util.*;
 
 class Solution {
-    int b,y;
+    int y;
     
     public boolean isOk(int n1, int n2){
         return y == ((n1-2) * (n2-2));
     }
     
     public int[] solution(int brown, int yellow) {
-        b = brown;
         y = yellow;
         
-        int sum = b + y;
+        int sum = brown + yellow;
         int row = 0;
         int col = 0;
         
