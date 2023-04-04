@@ -9,8 +9,7 @@ public class Main {
     static int N;
     static int[][] cost;
     static int[][] dp;
-    static int NotBack = 16 * 1000000 + 1; // 다시 돌아올 수 없는경우
-    static int NotChk = 32 * 1000000; // 방문하지 않은 경우
+    static int INF = 16 * 1000000 + 1;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,23 +32,23 @@ public class Main {
         }
 
         // dp 배열 초기화
-        for (int i = 0; i < N; i++) Arrays.fill(dp[i], NotChk);
+        for (int i = 0; i < N; i++) Arrays.fill(dp[i], -1);
 
         // 첫째 줄에 외판원의 순회에 필요한 최소 비용을 출력한다.
         System.out.println(go(0, 1));
-
     }
 
     private static int go(int cur, int chk) {
         // 모든 도시를 방문 완료했을 경우
         if (chk == ((1 << N) - 1)) {
-            // 원래 도시로 돌아가는 경로가 없다면 INF 리턴
-            if (cost[cur][0] == 0) return NotBack;
+            // 원래 도시로 돌아가는 경로가 없다면 NotBack 리턴 - 시간초과 방지를 위해 방문할 수 없는 것과 방문하지 않는 것 구분
+            if (cost[cur][0] == 0) return INF;
             return cost[cur][0];
         }
 
         // 이미 방문했던 루트라면 리턴
-        if (dp[cur][chk] != NotChk) return dp[cur][chk];
+        if (dp[cur][chk] != -1) return dp[cur][chk];
+        dp[cur][chk] = INF;
 
         for (int i = 0; i < N; i++) {
             if ((chk & (1 << i)) != 0 || cost[cur][i] == 0) continue; // 방문했던 도시라면 pass, 방문 불가라면 pass
