@@ -30,16 +30,14 @@ class Solution {
         int max = 0;
         int min = 0;
         
-        while(!maxq.isEmpty()){
+        if(!maxq.isEmpty()){
             max = maxq.poll();
         }
         
-        while(!minq.isEmpty()){
+        if(!minq.isEmpty()){
             min = minq.poll();
         }
         
-        int[] answer = {min, max};
-        
-        return answer;
+        return new int[]{max, min};
     }
 }
