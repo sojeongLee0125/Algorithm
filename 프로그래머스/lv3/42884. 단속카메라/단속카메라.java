@@ -1,34 +1,29 @@
 import java.util.*;
 
-// 고속도로를 이동하는 차량의 경로 routes가 매개변수로 주어질 때, 
-// 모든 차량이 한 번은 단속용 카메라를 만나도록 하려면 
-// 최소 몇 대의 카메라를 설치해야 하는지를 return 하도록 solution 함수를 완성하세요.
-
 class Solution {
+    PriorityQueue<int[]> pq = new PriorityQueue<>((a1, a2) -> a1[1] - a2[1]);
+    
     public int solution(int[][] routes) {
         int answer = 0;
         
-        // 루트를 종점기준으로 오름차순 정렬한다.
-        // 처음 카메라 위치는 - 30001
-        // 현재 진입점 기준으로 카메라 위치보다 앞에 있으면 answer++; 하고 카메라 위치는 현재 종점으로 잡는다.
+        // 1. pq에 모든 루트를 담는다.
+        // 2. 꺼낸 루트의 마지막 점을 저장한다.
+        // 3. 그 다음 루트의 출발점이 마지막 점 이내이면 패스한다. 아니면 answer++ 하고 마지막 점으로 새로운 점으로 갱신한다.
         
-        // Arrays.sort(routes, new Comparator<int[]>() {
-        //     @Override
-        //     public int compare(int[] r1, int[] r2) {
-        //         return r1[1] - r2[1];
-        //     }
-        // });
+        for(int[] arr : routes){
+            pq.add(arr);
+        }
         
-        Arrays.sort(routes, (a, b) -> Integer.compare(a[1], b[1]));
         
-        int p = -30001;
-        for(int[] cur : routes){
+        int last = -300001;
+        while(!pq.isEmpty()){
+            int[] cur = pq.poll();
             int st = cur[0];
             int ed = cur[1];
-            if(st <= p) continue;
+            if(st <= last) continue;
             else{
                 answer++;
-                p = ed; 
+                last = ed;
             }
         }
         
