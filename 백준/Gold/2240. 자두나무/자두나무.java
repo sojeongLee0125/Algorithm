@@ -34,14 +34,13 @@ public class Main {
         }
 
         int answer = Math.max(go(0, W, 0), go(0, W - 1, 1));
-
         System.out.println(answer);
     }
 
     private static int go(int cnt, int w, int cur) {
         // 기저사례
         if (w < 0) return Integer.MIN_VALUE; // 움직이는 횟수를 다 쓴 경우
-        if (cnt == T) return w == 0 ? 0 : Integer.MIN_VALUE; // 끝에 도달했을 경우
+        if (cnt == T) return 0; // 끝에 도달했을 경우
 
         // 메모이제이션
         if (dp[cnt][w][cur] != -1) return dp[cnt][w][cur];
