@@ -28,9 +28,9 @@ class Solution {
             for(int j=0; j<m; j++){
                 if(map[i][j] != 0) continue;
                 // 왼쪽에서 오는 경우
-                if(i - 1 >= 0 && (map[i-1][j] != -1)) map[i][j] += map[i-1][j]; map[i][j] %= 1000000007;
+                if(i - 1 >= 0 && (map[i-1][j] != -1)) map[i][j] += map[i-1][j] % 1000000007;
                 // 위쪽에서 오는 경우
-                if(j - 1 >= 0 && (map[i][j-1] != -1)) map[i][j] += map[i][j-1]; map[i][j] %= 1000000007;
+                if(j - 1 >= 0 && (map[i][j-1] != -1)) map[i][j] += map[i][j-1] % 1000000007;
             }
         }
     
