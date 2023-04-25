@@ -1,0 +1,48 @@
+import java.util.*;
+
+// 오색 사탕은 길이 1cm 마다 빨강(R), 노랑(Y), 초록(G), 파랑(B), 보라(P) 하나로 구성
+// 사탕의 양쪽 끝이 동일한 부분이 많을수록 행운
+// 양쪽 끝의 동일한 부분이 사탕 앞부분(왼쪽)부터 Xcm와 사탕 끝부분 왼쪽부터 Xcm의 색 순서가 동일한 경우
+// 오색 사탕 전체는 양쪽 끝이 항상 동일하므로 동일한 부분으로 세지 않는다.
+
+// 긴 오색사탕을 절단해서 판매
+// 특정 위치에서 사탕을 절단했을 때 양쪽 끝의 동일한 부분이 수를 파악
+// 오색사탕을 절단할 때는 항상 사탕 맨 왼쪽 기준으로 정수단위만큼 떨어진 위치에서 절단
+// 오색사탕과 절단할 위치들의 집합이 주어졌을때 각 위치마다 양쪽 끝의 동일한 부분들의 수를 리턴
+
+class Solution {
+    public int[] solution(String candy, int[] positions) {
+        int idx = 0; // 기준 인덱스
+        int[] dp = new int[candy.length()]; // 해당 사탕과 같은 색 등장 위치 인덱싱
+
+        for(int i=1; i<candy.length(); i++){
+            char c = candy.charAt(i);
+            
+            // 현재 i 사탕이 기준 idx 사탕과 다를 경우 같을 때까지 이전 인덱스
+            while(idx > 0 && candy.charAt(idx) != c){
+                idx = dp[idx];
+            }
+
+            // 현재 사탕이 기준 사탕과 같을 경우 기준을 다음으로 옮긴다.
+            if(c == candy.charAt(idx)) idx++;
+            dp[i] = idx;
+        }
+        
+        int[] answer = new int[positions.length];
+        
+        for(int i=0; i<positions.length; i++){
+            int cnt = 0;
+            int end = positions[i]-1; // 절단 위치의 인덱스
+            
+            while(dp[end] > 0){    
+                end = dp[end] - 1;
+                if(end < 0) break;
+                cnt++;
+            }
+
+            answer[i] = cnt;
+        }
+        
+        return answer;
+    }
+}
