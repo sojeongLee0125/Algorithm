@@ -5,10 +5,10 @@ import java.util.*;
 // 조각을 회전시킬 수 있습니다. 조각을 뒤집을 수는 없습니다.
 // 규칙에 맞게 최대한 많은 퍼즐 조각을 채워 넣을 경우, 총 몇 칸을 채울 수 있는지 return 하도록 solution 함수를 완성해주세요.
 
-class Solution {
-    
+class Solution {   
     ArrayList<String> empty = new ArrayList<>(); // 빈칸 리스트 저장
     int N; // 행의 수
+    
     int[] dy = {-1, 0, 1, 0}; // 위 오 아 왼
     int[] dx = {0, 1, 0, -1};
     
