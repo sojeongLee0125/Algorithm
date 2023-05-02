@@ -1,10 +1,5 @@
 import java.util.*;
 
-// 사칙연산에서 더하기(+)는 결합법칙이 성립하지만, 빼기(-)는 결합법칙이 성립하지 않습니다.
-// 뺄셈은 연산 순서에 따라 그 결과가 바뀔 수 있습니다.
-// 문자열 형태의 숫자와, 더하기 기호("+"), 뺄셈 기호("-")가 들어있는 배열 arr가 매개변수로 주어질 때, 
-// 서로 다른 연산순서의 계산 결과 중 최댓값을 return 하도록 solution 함수를 완성해 주세요.
-
 class Solution {
     ArrayList<String> ops = new ArrayList<>(); // 연산자
     ArrayList<Integer> nums = new ArrayList<>(); // 숫자
@@ -31,19 +26,19 @@ class Solution {
     }
     
     public int sol(int flag, int st, int ed){
-        
-        // 1. st == ed 일 경우 (값이 하나일 경우)
+        // st == ed 일 경우 (값이 하나일 경우)
         if(st == ed){
             dp[flag][st][ed] = nums.get(st);
             return dp[flag][st][ed];
         }
         
-        // 2. dp값이 존재하는 경우
-        if((flag == 0 && dp[flag][st][ed] != Integer.MAX_VALUE) || (flag == 1 && dp[flag][st][ed] != Integer.MIN_VALUE)){
+        // dp값이 존재하는 경우
+        if((flag == 0 && dp[flag][st][ed] != Integer.MAX_VALUE) 
+           || (flag == 1 && dp[flag][st][ed] != Integer.MIN_VALUE)){
             return dp[flag][st][ed];
         }
         
-        // 3. rs 값 초기화
+        // rs 값 초기화
         int rs = 0;
         if(flag == 0) rs = Integer.MAX_VALUE; // 최솟값을 구할 경우 최댓값으로 초기화
         else rs = Integer.MIN_VALUE; // 최댓값을 구할 경우 최솟값으로 초기화
