@@ -1,9 +1,5 @@
 import java.util.*;
 
-// n명이 입국심사를 위해 줄을 서서 기다리고 있습니다. 각 입국심사대에 있는 심사관마다 심사하는데 걸리는 시간은 다릅니다.
-// 모든 사람이 심사를 받는데 걸리는 시간을 최소로 하고 싶습니다.
-// 모든 사람이 심사를 받는데 걸리는 시간의 최솟값을 return 하도록 solution 함수를 작성해주세요.
-
 class Solution {
     public long solution(int n, int[] times) {
         // 1. 최소 시간 ~ 최대 시간 범위를 설정하여 이분 탐색을 진행한다.
@@ -15,7 +11,7 @@ class Solution {
         Arrays.sort(times);
         
         long st = times[0];
-        long ed = (long) times[times.length-1] * n; // n명이 모두 최대 시간 검사대에서 검사한 경우
+        long ed = (long) times[times.length-1] * n; // n명이 모두 최대 시간 검사대 검사
         long answer = ed;
         
         while(st <= ed){
