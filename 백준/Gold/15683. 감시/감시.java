@@ -5,25 +5,26 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
- * Q. 사무실의 크기와 상태, 그리고 CCTV의 정보가 주어졌을 때, CCTV의 방향을 적절히 정해서, 사각 지대의 최소 크기를 구하는 프로그램을 작성하시오.
+ * Q. 사무실의 크기와 상태, 그리고 CCTV의 정보가 주어졌을 때, 
+ *    CCTV의 방향을 적절히 정해서, 사각 지대의 최소 크기를 구하는 프로그램을 작성하시오.
  * - 사무실에는 총 K개의 CCTV가 설치되어져 있는데, CCTV는 5가지 종류가 있다.
  * - 1번 CCTV는 한 쪽 방향만 감시할 수 있다.
  * - 2번은 감시하는 방향이 서로 반대방향이어야 하고, 3번은 직각 방향이어야 한다.
  * - 4번은 세 방향, 5번은 네 방향을 감시할 수 있다.
  * - CCTV는 감시할 수 있는 방향에 있는 칸 전체를 감시할 수 있다.
- * - 사무실에는 벽이 있는데, CCTV는 벽을 통과할 수 없다. CCTV가 감시할 수 없는 영역은 사각지대라고 한다.
- * - CCTV는 회전시킬 수 있는데, 회전은 항상 90도 방향으로 해야 하며, 감시하려고 하는 방향이 가로 또는 세로 방향이어야 한다.
+ * - 사무실에는 벽이 있는데, CCTV는 벽을 통과할 수 없다. 
+ * - CCTV가 감시할 수 없는 영역은 사각지대라고 한다.
+ * - CCTV는 회전시킬 수 있는데, 회전은 항상 90도 방향으로 해야 하며, 
+ * - 감시하려고 하는 방향이 가로 또는 세로 방향이어야 한다.
  * - CCTV는 CCTV를 통과할 수 있다.
  */
 public class Main {
-
     static int N, M, min = Integer.MAX_VALUE;
     static int[] dy = {-1, 0, 1, 0};
     static int[] dx = {0, 1, 0, -1};
 
-    static int[][] map;
-    static ArrayList<int[]> cctv = new ArrayList<>();
-
+    static int[][] map; // 지도
+    static ArrayList<int[]> cctv = new ArrayList<>(); // cctv 위치들 저장
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -53,18 +54,18 @@ public class Main {
 
     public static void dfs(int cnt) {
         if (cnt == cctv.size()) {
-            updateCnt(); // 사각지대 갯수 갱신
+            updateCnt(); // 사각지대 최소값 갱신
             return;
         }
 
-        ArrayList<int[]> changeList;
+        ArrayList<int[]> changeList; // 변경된 위치 리스트(원복용)
 
-        // 방향 회전
+        // 4방향 경우의 수 
         for (int k = 0; k < 4; k++) {
             changeList = install(cnt, k);
             dfs(cnt + 1);
             for (int[] arr : changeList) {
-                map[arr[0]][arr[1]] = 0;
+                map[arr[0]][arr[1]] = 0; // 원상복구
             }
         }
     }

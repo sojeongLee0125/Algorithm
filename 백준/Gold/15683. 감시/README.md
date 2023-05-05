@@ -4,11 +4,11 @@
 
 ### 성능 요약
 
-메모리: 41868 KB, 시간: 356 ms
+메모리: 41956 KB, 시간: 352 ms
 
 ### 분류
 
-구현, 브루트포스 알고리즘, 시뮬레이션
+백트래킹, 브루트포스 알고리즘, 구현, 시뮬레이션
 
 ### 문제 설명
 
@@ -18,10 +18,10 @@
 	<tbody>
 		<tr>
 			<td style="width: 20%; text-align: center; vertical-align: middle;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/15683/1.png" style="width: 113px; height: 70px;"></td>
-			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/15683/2.png" style="width: 156px; height: 70px;"></td>
-			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/15683/3.png" style="width: 100px; height: 100px;"></td>
-			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/15683/4.png" style="width: 138px; height: 100px;"></td>
-			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/15683/5.png" style="width: 149px; height: 150px;"></td>
+			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="" style="width: 156px; height: 70px;"></td>
+			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="" style="width: 100px; height: 100px;"></td>
+			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="" style="width: 138px; height: 100px;"></td>
+			<td style="width: 20%; text-align: center;vertical-align: middle;"><img alt="" src="" style="width: 149px; height: 150px;"></td>
 		</tr>
 		<tr>
 			<td style="width: 20%; text-align: center;">1번</td>
