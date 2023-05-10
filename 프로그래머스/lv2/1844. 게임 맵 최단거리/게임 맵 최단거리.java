@@ -9,9 +9,9 @@ class Solution {
     int n,m;
     
     public int solution(int[][] maps) {
-        int answer = 0;
-        
+        int answer = 0;     
         map = maps;
+        
         n = maps.length;
         m = maps[0].length;
         
@@ -47,7 +47,6 @@ class Solution {
             for(int k=0; k<4; k++){
                 int ny = cy + dy[k];
                 int nx = cx + dx[k];
-                
                 if(ny < 0 || nx < 0 || ny >= n || nx >= m || chk[ny][nx] != Integer.MAX_VALUE) continue;
                 if(map[ny][nx] == 0) continue;
                 chk[ny][nx] = chk[cy][cx] + 1;
