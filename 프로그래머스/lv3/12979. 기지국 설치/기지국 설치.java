@@ -1,7 +1,6 @@
 import java.util.*;
 
 class Solution {
-
     public int calc(int st, int ed, int w){
         int ret = (ed - st + 1) / (2 * w + 1);
         int res = (ed - st + 1) % (2 * w + 1) == 0 ? 0 : 1;
