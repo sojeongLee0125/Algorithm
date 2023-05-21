@@ -11,39 +11,32 @@ import java.util.StringTokenizer;
  * - 사용한 동전의 구성이 같은데, 순서만 다른 것은 같은 경우이다.
  */
 public class Main {
-    static int[] coins;
-    static int[] dp;
+
+    static int n, k, INF = 100005;
+    static int[] dp = new int[INF];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         // 첫째 줄에 n, k가 주어진다. (1 ≤ n ≤ 100, 1 ≤ k ≤ 10,000)
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
-        coins = new int[n];
-        dp = new int[k + 5];
-
-        // 초기값을 1로 갱신한다.
         dp[0] = 1;
 
         // 다음 n개의 줄에는 각각의 동전의 가치가 주어진다. 동전의 가치는 100,000보다 작거나 같은 자연수이다.
-        for (int i = 0; i < n; i++) {
-            coins[i] = Integer.parseInt(br.readLine());
-        }
-
-        // 1. 동전을 오름차순 정렬한다.
-        Arrays.sort(coins);
-
-        // 2. 작은 금액부터 차례대로 dp 테이블을 갱신한다.
-        for (int coin : coins) {
+        while (n-- > 0) {
+            int coin = Integer.parseInt(br.readLine());
+            if (coin > k) continue;
             for (int i = coin; i <= k; i++) {
                 dp[i] += dp[i - coin];
             }
         }
 
-        // 첫째 줄에 경우의 수를 출력한다. 경우의 수는 2^31보다 작다.
+        // 첫째 줄에 경우의 수를 출력한다. 경우의 수는 231보다 작다.
         System.out.println(dp[k]);
+
+
     }
 }
