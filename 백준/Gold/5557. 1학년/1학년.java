@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -29,7 +28,6 @@ public class Main {
             nums[i] = Integer.parseInt(st.nextToken());
         }
 
-
         // 첫째 줄에 상근이가 만들 수 있는 올바른 등식의 개수를 출력한다.
         // 이 값은 2^63-1 이하이다.
         System.out.println(find(0, nums[0]));
@@ -51,6 +49,7 @@ public class Main {
 
         dp[cnt][sum] += find(cnt + 1, sum + nums[cnt + 1]);
         dp[cnt][sum] += find(cnt + 1, sum - nums[cnt + 1]);
+
         return dp[cnt][sum];
     }
 }
