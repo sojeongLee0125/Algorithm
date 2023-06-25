@@ -54,12 +54,15 @@ public class Main {
 
             // 펜윅트리 계산
             long answer = 0L;
-            update(binarySearch(symmetryY, symmetryPoint.get(0)[1] + 1), 1);
 
+            // 펜윅트리 초기값 생성
+            updateTree(binarySearch(symmetryY, symmetryPoint.get(0)[1] + 1), 1);
+
+            // 펜윅트리 계산
             for (int i = 1; i < n; i++) {
                 int idx = binarySearch(symmetryY, symmetryPoint.get(i)[1] + 1);
-                answer += 1L * getIdxSum(idx);
-                update(idx, 1);
+                answer += 1L * getSum(idx);
+                updateTree(idx, 1);
             }
 
             // 각 테스트 케이스에 대해서, 북서풍을 타고 항해할 수 있는 섬의 쌍의 수를 출력한다.
@@ -68,7 +71,7 @@ public class Main {
 
     }
 
-    private static int getIdxSum(int idx) {
+    private static int getSum(int idx) {
         int sum = 0;
         while (idx > 0) {
             sum += fenwickTree[idx];
@@ -77,9 +80,7 @@ public class Main {
         return sum;
     }
 
-    private static void update(int p, int val) {
-        int idx = p;
-
+    private static void updateTree(int idx, int val) {
         while (idx <= n) {
             fenwickTree[idx] += val;
             idx += (idx & -idx);
