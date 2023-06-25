@@ -13,60 +13,12 @@ import java.util.Arrays;
  * - 최대 세 개의 인접한 디스크를 한 번에 돌릴 수 있다.
  */
 public class Main {
-    static int INF = 987654321;
+    static int INF = 999999999;
     static int N;
     static int[] cur, pass;
 
     // 인덱스, 동시에 움직일 수 있는 3개 숫자, 시계방향/반시계방향
     static int[][][][][] dp = new int[105][10][10][10][2];
-
-    private static int check(int num) {
-        // 시계 방향으로 돌려서 9를 초과할 경우 대비 % 연산
-        // 반시계 방향으로 돌려서 음수가 되었을 경우 대비 +10
-        return (num < 0) ? num + 10 : num % 10;
-    }
-
-    private static int find(int pos, int x, int y, int z, int flag) {
-
-        // 비밀번호 전체 자리 다 계산된 경우
-        if (pos == N) return 0;
-
-        // 메모이제이션
-        if (dp[pos][x][y][z][flag] != INF) return dp[pos][x][y][z][flag];
-
-        // 첫번째 자리수가 일치할 경우
-        if (check(x + cur[pos]) == check(pass[pos])) {
-            return dp[pos][x][y][z][flag] = Math.min(
-                    find(pos + 1, y, z, 0, 0), // 시계 방향
-                    find(pos + 1, y, z, 0, 1)); // 반시계 방향
-        }
-
-        // 회전 방향
-        int dir = (flag == 1) ? 1 : -1;
-
-        // 3가지 경우의 수 (1 ~ 3칸)
-        for (int i = 1; i <= 3; i++) {
-            // 1개 이동
-            dp[pos][x][y][z][flag] = Math.min(dp[pos][x][y][z][flag],
-                    1 + find(pos, check(x + (i * dir)), y, z, flag)
-            );
-
-            // 2개 이동
-            dp[pos][x][y][z][flag] = Math.min(dp[pos][x][y][z][flag],
-                    1 + find(pos, check(x + (i * dir)),
-                            check(y + (i * dir)), z, flag)
-            );
-
-            // 3개 이동
-            dp[pos][x][y][z][flag] = Math.min(dp[pos][x][y][z][flag],
-                    1 + find(pos, check(x + (i * dir)),
-                            check(y + (i * dir)),
-                            check(z + (i * dir)), flag)
-            );
-        }
-
-        return dp[pos][x][y][z][flag];
-    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -109,5 +61,48 @@ public class Main {
                 }
             }
         }
+    }
+
+    private static int check(int num) {
+        // 시계 방향으로 돌려서 9를 초과할 경우 대비 % 연산
+        // 반시계 방향으로 돌려서 음수가 되었을 경우 대비 +10
+        return (num < 0) ? num + 10 : num % 10;
+    }
+
+    private static int find(int idx, int num1, int num2, int num3, int rotate) {
+        // 비밀번호 전체 자리 다 계산된 경우
+        if (idx == N) return 0;
+
+        // 메모이제이션
+        if (dp[idx][num1][num2][num3][rotate] != INF) return dp[idx][num1][num2][num3][rotate];
+
+        // 첫번째 자리수가 일치할 경우
+        if (check(num1 + cur[idx]) == check(pass[idx])) {
+            return dp[idx][num1][num2][num3][rotate] = Math.min(
+                    find(idx + 1, num2, num3, 0, 0), // 시계 방향
+                    find(idx + 1, num2, num3, 0, 1)); // 반시계 방향
+        }
+
+        // 회전 방향
+        int dir = (rotate == 1) ? 1 : -1;
+
+        // 3가지 경우의 수 (1 ~ 3칸)
+        for (int i = 1; i <= 3; i++) {
+            // 1개 이동
+            dp[idx][num1][num2][num3][rotate] = Math.min(dp[idx][num1][num2][num3][rotate],
+                    1 + find(idx, check(num1 + (i * dir)), num2, num3, rotate));
+
+            // 2개 이동
+            dp[idx][num1][num2][num3][rotate] = Math.min(dp[idx][num1][num2][num3][rotate],
+                    1 + find(idx, check(num1 + (i * dir)),
+                            check(num2 + (i * dir)), num3, rotate));
+
+            // 3개 이동
+            dp[idx][num1][num2][num3][rotate] = Math.min(dp[idx][num1][num2][num3][rotate],
+                    1 + find(idx, check(num1 + (i * dir)), check(num2 + (i * dir)),
+                            check(num3 + (i * dir)), rotate));
+        }
+
+        return dp[idx][num1][num2][num3][rotate];
     }
 }
