@@ -59,7 +59,11 @@ public class Main {
                 int y2 = Integer.parseInt(st.nextToken());
                 int x2 = Integer.parseInt(st.nextToken());
                 // w = 1인 입력마다 구한 합을 순서대로 한 줄에 하나씩 출력한다.
-                sb.append(getSum(y2, x2) - getSum(y1 - 1, x2) - getSum(y2, x1 - 1) + getSum(y1 - 1, x1 - 1));
+                sb.append(getSum(y2, x2)
+                        - getSum(y1 - 1, x2)
+                        - getSum(y2, x1 - 1)
+                        + getSum(y1 - 1, x1 - 1) // 공통 제거 부분 다시 더해주기
+                );
                 sb.append("\n");
             }
         }
@@ -89,4 +93,5 @@ public class Main {
         }
         return sum;
     }
+
 }
