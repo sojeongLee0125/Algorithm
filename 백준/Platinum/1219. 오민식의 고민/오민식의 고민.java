@@ -22,8 +22,9 @@ import java.util.*;
 public class Main {
     static final int INF = 999_999_999;
     static int N, S, E, M, chk;
-    static int[] visited, cost;
+    static int[] visited, pay;
     static long[] dist = new long[105];
+
     static ArrayList<ArrayList<int[]>> map = new ArrayList<>();
     static Queue<Integer> queue = new LinkedList<>();
 
@@ -40,7 +41,7 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         visited = new int[N];
-        cost = new int[N];
+        pay = new int[N];
 
         // ArrayList 초기화
         for (int i = 0; i < N; i++) map.add(new ArrayList<>());
@@ -56,17 +57,17 @@ public class Main {
             map.get(start).add(new int[]{end, price});
         }
 
-        // 마지막 줄에는 오민식이 각 도시에서 벌 수 있는 돈의 최댓값이 0번 도시부터 차례대로 주어진다.
+        // 마지막 줄에는 오민식이 각 도시에서 벌 수 있는 돈의 최댓값이 주어진다.
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < N; i++) {
-            cost[i] = Integer.parseInt(st.nextToken());
+            pay[i] = Integer.parseInt(st.nextToken());
         }
 
         // dist 초기화
         Arrays.fill(dist, -INF);
-        dist[S] = cost[S];
+        dist[S] = pay[S];
 
-        dijkstra();
+        bellmanFord();
         bfs();
 
         // 도착 도시에 도착할 때, 가지고 있는 돈의 액수의 최댓값을 출력한다.
@@ -77,19 +78,19 @@ public class Main {
         else System.out.println(dist[E]);
     }
 
-    private static void dijkstra() {
+    private static void bellmanFord() {
         for (int i = 0; i < N; i++) {
             for (int cur = 0; cur < N; cur++) {
+                if (dist[cur] == -INF) continue;
+
                 for (int[] nxt : map.get(cur)) {
                     int nxtNode = nxt[0];
                     int nxtDist = nxt[1];
 
-                    if (dist[cur] == -INF) continue;
+                    if (dist[nxtNode] < dist[cur] + pay[nxtNode] - nxtDist) {
+                        dist[nxtNode] = dist[cur] + pay[nxtNode] - nxtDist;
 
-                    if (dist[nxtNode] < dist[cur] + cost[nxtNode] - nxtDist) {
-                        dist[nxtNode] = dist[cur] + cost[nxtNode] - nxtDist;
-
-                        // 도착 지점이 아닐경우
+                        // 사이클이 될 수 있는 지점은 미리 q에 넣어놓기
                         if (i == N - 1) queue.offer(cur);
                     }
                 }
@@ -101,11 +102,14 @@ public class Main {
         outer:
         while (!queue.isEmpty()) {
             int cur = queue.poll();
+
             for (int[] nxt : map.get(cur)) {
+                // 무한한 사이클이 생기는 경우
                 if (nxt[0] == E) {
                     chk = 1;
                     break outer;
                 }
+
                 if (visited[nxt[0]] == 0) {
                     visited[nxt[0]] = 1;
                     queue.offer(nxt[0]);
