@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
  */
 public class Main {
     static int N, K, S;
-    static int[][] orders = new int[405][405];
+    static int[][] orders;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,6 +20,7 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
+        orders = new int[N + 1][N + 1];
 
         // 다음 k 줄에는 전후 관계를 알고 있는 두 사건의 번호가 주어진다.
         // 이는 앞에 있는 번호의 사건이 뒤에 있는 번호의 사건보다 먼저 일어났음을 의미한다.
